@@ -5,5 +5,5 @@ export default function Home() {
   useEffect(() => {
     window.location.replace("https://www.jobmq.com/")
   }, [])
-  return;
+  return <h1>Hello, Home page!</h1>;
 }
