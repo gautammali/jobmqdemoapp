@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import React, { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 export function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -12,8 +13,12 @@ export default function UserInfo() {
     const [user, setUserDetails] = useState({})
     const [accessToken, setAccessToken] = useState('')
 
+    const pathname = usePathname()
+    const pathToken = pathname.split('/').pop() 
+    !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken)
+
     const getUserInfo = async () => {
-        const token = localStorage?.getItem('accessToken')
+        const token = !accessToken ? localStorage?.getItem('accessToken') : accessToken;
         setAccessToken(token)
         try {
             const response = await fetch('https://api.jobmq.com/api/candidate/details', {
@@ -24,6 +29,7 @@ export default function UserInfo() {
             const data = await response.json()
             setUserDetails(data?.data)
         } catch (error) {
+            console.log(error)
         }
 
     }
@@ -34,8 +40,9 @@ export default function UserInfo() {
 
 
     const handleLogout = () => {
-        localStorage.removeItem('accessToken')
-        window.location.replace('http://localhost:3001/logout');
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.replace('https://jobmqdemo.netlify.app/logout');
     }
 
     return (
@@ -57,7 +64,7 @@ export default function UserInfo() {
                         </div>
                         <Menu.Button className="flex flex-col items-start hover:bg-[#082354]rounded-md text-white text-sm font-semibold px-4 py-2">
                             <div className="flex items-center gap-1">
-                                <span className='text-lg font-bold text-white'>{user?.sponserName}</span>
+                                <span className='text-lg font-bold text-white'>{user?.firstName}</span>
                                 <MdOutlineKeyboardArrowDown className='text-2xl' />
                             </div>
                             <p>{user?.email}</p>
@@ -127,24 +134,24 @@ export default function UserInfo() {
                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <Menu.Item>
                                 {({ active }) => (
-                                    <NavLink
-                                        to="/individuals/login"
+                                    <a
+                                        href={"https://jobmqdemo.netlify.app/" + (user?.userType === 1 ? "individuals" : "businesses") + "/login"}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 border-b')}
                                     >
                                         Individuals <br />
                                         <span className='text-[12px] font-normal'>Job seekers, students, etc</span>
-                                    </NavLink>
+                                    </a>
                                 )}
                             </Menu.Item>
                             <Menu.Item>
                                 {({ active }) => (
-                                    <NavLink
-                                        to="/businesses/login"
-                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 ')}
+                                    <a
+                                        href={"https://jobmqdemo.netlify.app/" + (user?.userType === 1 ? "individuals" : "businesses") + "/login"}
+                                        className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 border-b')}
                                     >
                                         Business users <br />
                                         <span className='text-[12px] font-normal'>Employers, recruiters, etc.</span>
-                                    </NavLink>
+                                    </a>
                                 )}
                             </Menu.Item>
 

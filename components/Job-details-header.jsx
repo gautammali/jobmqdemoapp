@@ -64,7 +64,7 @@ export default function JobDetailsHeader({
                                 >
                                     Applied
                                 </button>) : <a
-                                        href={`https://jobmq.com/jobs/apply/${id}`}
+                                        href={`https://jobmqdemo.netlify.app/jobs/apply/${id}`}
                                     className="inline-flex w-full justify-center rounded-full border border-transparent px-6 py-2 text-base font-semibold text-white shadow-sm bg-[#0076bd] hover:bg-primary-800 sm:w-auto sm:text-lg transition_1"
                                 >
                                     Apply
