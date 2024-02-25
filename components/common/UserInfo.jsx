@@ -4,6 +4,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { serverConfiguration } from '@/config/index.constant'
 
 export function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -21,7 +22,7 @@ export default function UserInfo() {
         const token = !accessToken ? localStorage?.getItem('accessToken') : accessToken;
         setAccessToken(token)
         try {
-            const response = await fetch('https://api.jobmq.com/api/candidate/details', {
+            const response = await fetch(`${serverConfiguration.serverURL}/candidate/details`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -42,7 +43,7 @@ export default function UserInfo() {
     const handleLogout = () => {
         localStorage.clear();
         sessionStorage.clear();
-        window.location.replace('https://jobmqdemo.netlify.app/logout');
+        window.location.replace(`${serverConfiguration.mainApp}logout`);
     }
 
     return (
@@ -55,7 +56,7 @@ export default function UserInfo() {
                         <div className="flex flex-col gap-2 items-center">
                             <span className="inline-block h-12 w-12 overflow-hidden rounded-full">
                                 {user?.profilePic ?
-                                    <img src={`https://api.jobmq.com/file/${user?.profilePic}`} alt="" />
+                                    <img src={`${serverConfiguration.serverFileURL}file/${user?.profilePic}`} alt="" />
                                     : <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                                         <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                     </svg>
@@ -83,7 +84,7 @@ export default function UserInfo() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
-                                        href={"https://www.jobmq.com/" + (user?.userType === 1 ? "individuals" : "businesses") + "/profile"}
+                                        href={serverConfiguration.mainApp + (user?.userType === 1 ? "individuals" : "businesses") + "/profile"}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 ')}
                                     >
                                         Profile
@@ -93,7 +94,7 @@ export default function UserInfo() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
-                                        href={"https://www.jobmq.com/" + (user?.userType === 1 ? "individuals" : "businesses") + "/profile/account/details"}
+                                        href={serverConfiguration.mainApp + (user?.userType === 1 ? "individuals" : "businesses") + "/profile/account/details"}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 border-b')}
                                     >
                                         Account
@@ -135,7 +136,7 @@ export default function UserInfo() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
-                                        href={"https://jobmqdemo.netlify.app/" + (user?.userType === 1 ? "individuals" : "businesses") + "/login"}
+                                        href={serverConfiguration.mainApp + (user?.userType === 1 ? "individuals" : "businesses") + "/login"}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 border-b')}
                                     >
                                         Individuals <br />
@@ -146,7 +147,7 @@ export default function UserInfo() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
-                                        href={"https://jobmqdemo.netlify.app/" + (user?.userType === 1 ? "individuals" : "businesses") + "/login"}
+                                        href={serverConfiguration.mainApp + (user?.userType === 1 ? "individuals" : "businesses") + "/login"}
                                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm font-semibold text-gray-700 border-b')}
                                     >
                                         Business users <br />

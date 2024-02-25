@@ -1,7 +1,7 @@
 import JobDetailsHeader from "@/components/Job-details-header";
 import JobDetails from "@/components/job-details"
 import { getJobs, getSingleJob } from "@/lib/jobsApi"
-
+import { serverConfiguration } from "@/config/index.constant";
 
 
 export async function generateMetadata({ params: { jobId } }) {
@@ -12,10 +12,9 @@ export async function generateMetadata({ params: { jobId } }) {
         openGraph: {
             title: `${product?.desingnation} - ${product?.companyName} | JOBMQ.COM(Job Message Queue)`,
             description: product?.description.slice(0, 100),
-            url: `http://jobmq.com/jobs/${product?.id}/${product?.seoDetail?.slugUrl}`,
+            url: `${serverConfiguration.mainApp}jobs/${product?.id}/${product?.seoDetail?.slugUrl}`,
             locale: product?.seoDetail?.currency,
             site_name: 'Job Message Queue',
-
         },
     }
 }

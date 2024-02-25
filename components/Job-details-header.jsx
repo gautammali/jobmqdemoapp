@@ -1,6 +1,7 @@
 import React from 'react'
 import { AiOutlineRight } from "react-icons/ai";
 import moment from "moment";
+import { serverConfiguration } from '@/config/index.constant';
 
 
 export default function JobDetailsHeader({
@@ -23,11 +24,11 @@ export default function JobDetailsHeader({
                 <div className="container flex justify-between flex-wrap sm:flex-nowrap">
                     <div className="">
                         <div className="flex items-center gap-1 text-sky-600 font-medium cursor-pointer">
-                            <a href="https://jobmq.com" className="hover:underline">
+                            <a href={serverConfiguration.mainApp} className="hover:underline">
                                 Home
                             </a>
                             <AiOutlineRight />
-                            <a to="https://jobmq.com/jobs" className="hover:underline">
+                            <a to={`${serverConfiguration.mainApp}jobs`} className="hover:underline">
                                 Jobs
                             </a>
                         </div>
@@ -64,7 +65,7 @@ export default function JobDetailsHeader({
                                 >
                                     Applied
                                 </button>) : <a
-                                        href={`https://jobmqdemo.netlify.app/jobs/apply/${id}`}
+                                        href={`${serverConfiguration.mainApp}jobs/apply/${id}`}
                                     className="inline-flex w-full justify-center rounded-full border border-transparent px-6 py-2 text-base font-semibold text-white shadow-sm bg-[#0076bd] hover:bg-primary-800 sm:w-auto sm:text-lg transition_1"
                                 >
                                     Apply
@@ -101,7 +102,7 @@ export default function JobDetailsHeader({
                             </div>
                             <div className="">
                                 <img
-                                    src={`https://api.jobmq.com/file/${companyLogo}`}
+                                    src={`${serverConfiguration.serverFileURL}file/${companyLogo}`}
                                     className={"max-h-14 "}
                                     alt=""
                                 />
