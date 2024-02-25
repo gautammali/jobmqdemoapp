@@ -1,5 +1,5 @@
 
-const server = 'local'
+const server = 'custom'
 
 const serverConfiguration = {
     'local' : {
@@ -9,8 +9,8 @@ const serverConfiguration = {
         serverFileURL : 'https://api.jobmq.com/'
     },
     'custom' :{
-        baseUrl :'https://jobs.jobmq.com/', 
-        mainApp : 'https://jobmq.com/',
+        baseUrl :'https://jobmqdemoapp.vercel.app/', 
+        mainApp : 'https://jobmqmain.netlify.app/',
         serverURL :'https://api.jobmq.com/api',
         serverFileURL : 'https://api.jobmq.com/'
     },
