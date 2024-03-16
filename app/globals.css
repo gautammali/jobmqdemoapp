@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.innnerHTML > ul,ol {
+    list-style-type: disc !important;
+  }

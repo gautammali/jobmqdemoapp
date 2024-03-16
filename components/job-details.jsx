@@ -31,7 +31,7 @@ export default function JobDetails({ data }) {
                             </h3>
                             <p className="pb-7">About this role</p>
 
-                            <p>{description}</p>
+                            <div className="innnerHTML ml-3" dangerouslySetInnerHTML={{__html : description}}></div>
                         </div>
 
                         <div className="border p-5">
