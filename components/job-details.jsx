@@ -1,5 +1,6 @@
+import Attachment from "./common/Attachement";
 
-export default function JobDetails({ data }) {
+export default function JobDetails({ data,fileData }) {
     const {
         id,
         doc,
@@ -19,7 +20,7 @@ export default function JobDetails({ data }) {
         seoDetail,
         jobPostingSchema,
         breadCurmbList,
-    } = data || {};
+    } =data || {};
     return (
         <>
             <div className="container">
@@ -46,8 +47,7 @@ export default function JobDetails({ data }) {
                                 ))}
                             </div>
                         </div>
-
-                        {/* <JobAttechment /> */}
+                        { fileData?.data && fileData?.data?.length !== 0 && <Attachment data={fileData?.data}/>  }                               
                     </div>
                     <div className="col-span-4">
                         <div className="bg-[#f4f4f4] p-5 h-auto">

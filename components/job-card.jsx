@@ -9,9 +9,9 @@ const JobCard = ({ job }) => {
     return (
         <div className='bg-white hover:drop-shadow-2xl drop-shadow-md transition-all duration-300 ease-linear hover:scale-100 scale-[.99] border flex flex-col gap-1 px-3 py-6 text-sm'>
             <Head>
-            <title>{title}</title>
-            <meta name="description" content={description} />
-            <link rel="job detail page" href={`${serverConfiguration.mainApp}jobs/apply/${id}`}/>
+                <title>{title}</title>
+                <meta name="description" content={description} />
+                <link rel="job detail page" href={`${serverConfiguration.mainApp}jobs/apply/${id}`}/>
             </Head>
             <div className="flex items-center justify-between">
                 {/* <p>{moment(new Date(doc)).fromNow()}</p> */}

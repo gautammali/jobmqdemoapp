@@ -5,7 +5,7 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { serverConfiguration } from '@/config/index.constant'
-
+import { useCookies } from 'next-client-cookies';
 export function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -13,10 +13,11 @@ export function classNames(...classes) {
 export default function UserInfo() {
     const [user, setUserDetails] = useState({})
     const [accessToken, setAccessToken] = useState('')
+    const cookies = useCookies();
 
     const pathname = usePathname()
     const pathToken = pathname.split('/').pop() 
-    !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken)
+    !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken) &&  cookies.set('accessToken', accessToken)
 
     const getUserInfo = async () => {
         const token = !accessToken ? localStorage?.getItem('accessToken') : accessToken;
@@ -27,8 +28,12 @@ export default function UserInfo() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            const data = await response.json()
-            setUserDetails(data?.data)
+            if(!response.ok){
+                console.log("not data available of user")
+            }else{
+                const data = await response.json()
+                setUserDetails(data?.data)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -43,6 +48,7 @@ export default function UserInfo() {
     const handleLogout = () => {
         localStorage.clear();
         sessionStorage.clear();
+        cookies.remove('accessToken')
         window.location.replace(`${serverConfiguration.mainApp}logout`);
     }
 
@@ -63,7 +69,7 @@ export default function UserInfo() {
                                 }
                             </span>
                         </div>
-                        <Menu.Button className="flex flex-col items-start hover:bg-[#082354]rounded-md text-white text-sm font-semibold px-4 py-2">
+                        <Menu.Button className="flex flex-col items-start hover:bg-(#082354)rounded-md text-white text-sm font-semibold px-4 py-2">
                             <div className="flex items-center gap-1">
                                 <span className='text-lg font-bold text-white'>{user?.firstName}</span>
                                 <MdOutlineKeyboardArrowDown className='text-2xl' />
