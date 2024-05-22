@@ -2,7 +2,6 @@ import JobDetailsHeader from "@/components/Job-details-header";
 import JobDetails from "@/components/job-details"
 import { getFilesAttachedToJob, getJobs, getSingleJob } from "@/lib/jobsApi"
 import { serverConfiguration } from "@/config/index.constant";
-import { getCookies } from 'next-client-cookies/server';
 import { redirect } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
@@ -37,8 +36,6 @@ export default async function Page({ params }) {
     if(params && params.slug[2]){
         redirect(`/jobs/${jobId}/${params.slug[2]}`)
     }
-    const cookies = getCookies();
-    const accessToken = cookies.get('accessToken')
     const data = await getSingleJob(jobId,params.slug[1])
     const fileData = accessToken && await getFilesAttachedToJob(jobId,accessToken);
     const { breadCurmbList, jobPostingSchema } = data || {}
