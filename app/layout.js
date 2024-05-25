@@ -3,7 +3,6 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Header from '@/components/common/Header'
 import Footer from '@/components/common/Footer'
-import { CookiesProvider } from 'next-client-cookies/server';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,13 +23,11 @@ export default function RootLayout({ children }) {
               </Link>
             </div>
           </header> */}
-        <CookiesProvider>
           <Header />
           <main className=''>
             {children}
           </main>
           <Footer />
-        </CookiesProvider>;
       </body>
     </html>
   )

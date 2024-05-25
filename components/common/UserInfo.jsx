@@ -5,7 +5,6 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { serverConfiguration } from '@/config/index.constant'
-import { useCookies } from 'next-client-cookies';
 export function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -13,11 +12,10 @@ export function classNames(...classes) {
 export default function UserInfo() {
     const [user, setUserDetails] = useState({})
     const [accessToken, setAccessToken] = useState('')
-    const cookies = useCookies();
 
     const pathname = usePathname()
     const pathToken = pathname.split('/').pop() 
-    !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken) &&  cookies.set('accessToken', accessToken)
+    !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken)
 
     const getUserInfo = async () => {
         const token = !accessToken ? localStorage?.getItem('accessToken') : accessToken;
@@ -48,7 +46,6 @@ export default function UserInfo() {
     const handleLogout = () => {
         localStorage.clear();
         sessionStorage.clear();
-        cookies.remove('accessToken')
         window.location.replace(`${serverConfiguration.mainApp}logout`);
     }
 
