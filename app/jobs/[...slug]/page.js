@@ -8,10 +8,10 @@ export async function generateMetadata({ params }) {
     const product = params?.slug[0] && await getSingleJob(params.slug[0])
     return {
         title: `${product?.SEOTitle} - ${product?.companyName}| JOBMQ.COM(Job Message Queue`,
-        description: product?.SEOdescription.slice(0, 50),
+        description: product?.SEOdescription?.slice(0, 50) || 'JOBMQ',
         openGraph: {
             title: `${product?.SEOTitle} - ${product?.companyName} | JOBMQ.COM(Job Message Queue)`,
-            description: product?.SEOdescription.slice(0, 100),
+            description: product?.SEOdescription?.slice(0, 100) || 'JOBMQ',
             url: `${serverConfiguration.mainApp}jobs/${product?.id}/${product?.seoDetail?.slugUrl}`,
             locale: product?.seoDetail?.currency,
             site_name: 'Job Message Queue',
