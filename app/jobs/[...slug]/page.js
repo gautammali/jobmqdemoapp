@@ -2,12 +2,11 @@ import JobDetailsHeader from "@/components/Job-details-header";
 import JobDetails from "@/components/job-details"
 import { getFilesAttachedToJob, getJobs, getSingleJob, userToken } from "@/lib/jobsApi"
 import { serverConfiguration } from "@/config/index.constant";
-import { redirect,useRouter } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
     const product = params?.slug[0] && await getSingleJob(params.slug[0])
     return {
-        title: `${product?.SEOTitle} - ${product?.companyName}| JOBMQ.COM(Job Message Queue`,
+        title: `${product?.SEOTitle || 'JOBMQ'} - ${product?.companyName}| JOBMQ.COM(Job Message Queue`,
         description: product?.SEOdescription?.slice(0, 50) || 'JOBMQ',
         openGraph: {
             title: `${product?.SEOTitle} - ${product?.companyName} | JOBMQ.COM(Job Message Queue)`,
@@ -33,11 +32,7 @@ export async function generateStaticParams() {
 export default async function Page({ params }) {
     console.log(params)
     const jobId = params.slug[0]
-    // if(params && params?.slug?.length === 3 && params.slug[1]){
-    //     redirect(`/jobs/${jobId}/${params.slug[1]}`)
-    // }
-    const cloneData = await getSingleJob(jobId,params.slug[2]) 
-    const data = { ...cloneData }
+    const data = await getSingleJob(jobId,params.slug[2])
     const fileData = params.slug[2] && await getFilesAttachedToJob(jobId,params.slug[2]);
     const { breadCurmbList, jobPostingSchema } = data || {}
     const itemListElement = breadCurmbList?.itemListElement?.map((item) => {

@@ -1,5 +1,5 @@
 
-const server = 'custom'
+const server = 'local'
 
 const serverConfiguration = {
     'local' : {
