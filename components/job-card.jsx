@@ -4,13 +4,29 @@ import Head from 'next/head';
 import React from 'react';
 import { serverConfiguration } from '@/config/index.constant';
 
+export async function generateMetadata({ job }) {
+    const product = job
+    return {
+        title: `${product?.seoTitle || 'JOBMQ'} - ${product?.companyName || ''}| JOBMQ.COM(Job Message Queue`,
+        description: product?.seoDescription || 'JOBMQ',
+        openGraph: {
+            title: `${product?.seoTitle} - ${product?.companyName} | JOBMQ.COM(Job Message Queue)`,
+            description: product?.seoDescription || 'JOBMQ',
+            url: `${serverConfiguration.mainApp}jobs/${product?.id}/${product?.seoDetail?.slugUrl}`,
+            locale: product?.seoDetail?.currency,
+            site_name: 'Job Message Queue',
+        },
+    }
+}
+
+
 const JobCard = ({ job }) => {
-    const { doc, desingnation, id, description } = job || {}
+    const { doc, desingnation,seoTitle, id, description,seoDescription } = job || {}
     return (
         <div className='bg-white hover:drop-shadow-2xl drop-shadow-md transition-all duration-300 ease-linear hover:scale-100 scale-[.99] border flex flex-col gap-1 px-3 py-6 text-sm'>
             <Head>
-                <title>{title}</title>
-                <meta name="description" content={description} />
+                <title>{seoTitle}</title>
+                <meta name="description" content={seoDescription} />
                 <link rel="job detail page" href={`${serverConfiguration.mainApp}jobs/apply/${id}`}/>
             </Head>
             <div className="flex items-center justify-between">

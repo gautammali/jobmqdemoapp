@@ -3,14 +3,14 @@ import JobDetails from "@/components/job-details"
 import { getFilesAttachedToJob, getJobs, getSingleJob } from "@/lib/jobsApi"
 import { serverConfiguration } from "@/config/index.constant";
 
-export async function generateMetadata({ params: { jobId } }) {
-    const product = await getSingleJob(jobId)
+export async function generateMetadata({ params }) {
+    const product = params?.slug[0] && await getSingleJob(params.slug[0],params.slug[2])
     return {
-        title: `${product?.desingnation} - ${product?.companyName}| JOBMQ.COM(Job Message Queue`,
-        description: product?.description.slice(0, 50),
+        title: `${product?.seoTitle || 'JOBMQ'} - ${product?.companyName || ''}| JOBMQ.COM(Job Message Queue`,
+        description: product?.seoDescription || 'JOBMQ',
         openGraph: {
-            title: `${product?.desingnation} - ${product?.companyName} | JOBMQ.COM(Job Message Queue)`,
-            description: product?.description.slice(0, 100),
+            title: `${product?.seoTitle} - ${product?.companyName} | JOBMQ.COM(Job Message Queue)`,
+            description: product?.seoDescription || 'JOBMQ',
             url: `${serverConfiguration.mainApp}jobs/${product?.id}/${product?.seoDetail?.slugUrl}`,
             locale: product?.seoDetail?.currency,
             site_name: 'Job Message Queue',
