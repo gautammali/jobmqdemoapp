@@ -46,7 +46,7 @@ const JobCard = ({ job }) => {
                 <p className='text-[#4f4f4f]'>{"Permanent position"}</p>
             </div>
             <div className="">
-                <div className="text-sm pb-2 text-[#051532] ml-3 innnerHTML" dangerouslySetInnerHTML={{__html : description.slice(0, 350)+ '...' + `<a href="/jobs/${id}/jobmq" style="color:#0076bd;text-decoration:underline;">read more</a>`}}></div>
+                <div className="text-sm pb-2 text-[#051532] ml-3 innnerHTML" dangerouslySetInnerHTML={{__html : description.slice(0, 350)+ '...' + `<a href="/jobs/${id}/jobmq" style={{ color:"#0076bd",textDecoration:"underline" }}>read more</a>`}}></div>
                 {/* <p>{description.slice(0,200)}</p> */}
             </div>
         </div>
