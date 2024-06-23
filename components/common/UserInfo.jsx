@@ -3,8 +3,10 @@ import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import React, { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { serverConfiguration } from '@/config/index.constant'
+import { getUsersDetails } from '@/lib/jobsApi'
+
 export function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -13,33 +15,30 @@ export default function UserInfo() {
     const [user, setUserDetails] = useState({})
     const [accessToken, setAccessToken] = useState('')
 
-    const pathname = usePathname()
-    const pathToken = pathname.split('/').pop() 
-    !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken)
+    // const pathname = usePathname()
+    const params  = useParams();
+    // const pathToken = pathname.split('/').pop() 
+    // !accessToken && pathToken && pathToken.length > 50 && setAccessToken(pathToken)
 
     const getUserInfo = async () => {
-        const token = !accessToken ? localStorage?.getItem('accessToken') : accessToken;
-        setAccessToken(token)
-        try {
-            const response = await fetch(`${serverConfiguration.serverURL}/candidate/details`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            if(!response.ok){
-                console.log("not data available of user")
-            }else{
-                const data = await response.json()
-                setUserDetails(data?.data)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-
+        const token = accessToken || localStorage?.getItem('accessToken') || decodeURIComponent(params.slug[2]);
+        !accessToken && setAccessToken(token)
+        const data = token && await getUsersDetails(token)
+        setUserDetails(data?.data)
     }
 
     useEffect(() => {
-        getUserInfo()
+        let accessToken = params?.slug[2]
+        accessToken = decodeURIComponent(accessToken)
+        if(accessToken){
+            localStorage?.setItem('accessToken', accessToken);
+    
+            const uData = async ()=>{
+                setAccessToken(params?.slug[2])
+                await getUserInfo(params?.slug[2])
+            }
+            uData()
+        }
     }, [])
 
 

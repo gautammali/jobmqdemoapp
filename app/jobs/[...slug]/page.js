@@ -4,7 +4,7 @@ import { getFilesAttachedToJob, getJobs, getSingleJob, userToken } from "@/lib/j
 import { serverConfiguration } from "@/config/index.constant";
 
 export async function generateMetadata({ params }) {
-    const product = params?.slug[0] && await getSingleJob(params.slug[0],params.slug[2])
+    const product = params?.slug[0] && await getSingleJob(params?.slug[0],params?.slug[2])
     return {
         title: `${product?.seoTitle || 'JOBMQ'} - ${product?.companyName || ''}| JOBMQ.COM(Job Message Queue`,
         description: product?.seoDescription || 'JOBMQ',
@@ -19,8 +19,9 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
-    const jobs = await getJobs();
+    let jobs = await getJobs();
 
+    jobs = jobs?.data || jobs;
     // slug: [post.id, post?.desingnation?.split(" ").join('-')],
     return jobs?.jobsListingResponses?.map((job) => ({
         params: {
@@ -32,8 +33,8 @@ export async function generateStaticParams() {
 export default async function Page({ params }) {
     console.log(params)
     const jobId = params.slug[0]
-    const data = await getSingleJob(jobId,params.slug[2])
-    const fileData = params.slug[2] && await getFilesAttachedToJob(jobId,params.slug[2]);
+    const data = await getSingleJob(jobId,params?.slug[2])
+    const fileData = params?.slug[2] && await getFilesAttachedToJob(jobId,params.slug[2]);
     const { breadCurmbList, jobPostingSchema } = data || {}
     const itemListElement = breadCurmbList?.itemListElement?.map((item) => {
         return {
